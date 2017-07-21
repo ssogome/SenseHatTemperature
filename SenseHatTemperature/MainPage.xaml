@@ -1,0 +1,61 @@
+﻿<Page
+    x:Class="SenseHatTelemeter.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:SenseHatTelemeter"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <Thickness x:Key="DefaultMargin">5</Thickness>
+
+        <Style TargetType="Button">
+            <Setter Property="Margin"
+                    Value="{StaticResource DefaultMargin}" />
+            <Setter Property="HorizontalAlignment"
+                    Value="Center" />
+        </Style>
+
+        <Style TargetType="TextBlock">
+            <Setter Property="FontSize"
+                    Value="46" />
+            <Setter Property="HorizontalAlignment"
+                    Value="Center" />
+            <Setter Property="Margin"
+                    Value="20" />
+        </Style>
+    </Page.Resources>
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <StackPanel>
+            <Button x:Name="ButtonConnect"
+                    Content="Connect and initialize"                    
+                    Click="ButtonConnect_Click"/>
+
+            <Button x:Name="ButtonSendDeviceInfo"
+                    Content="Send device info"
+                    IsEnabled="{x:Bind telemetryViewModel.IsConnected, Mode=OneWay}"
+                    Click="ButtonSendDeviceInfo_Click" />
+
+            <Button x:Name="ButtonStartTelemetry"
+                    Content="Start telemetry"
+                    IsEnabled="{x:Bind telemetryViewModel.IsStartTelemetryButtonEnabled, Mode=OneWay}"
+                    Click="ButtonStartTelemetry_Click" />
+
+            <Button x:Name="ButtonStopTelemetry"
+                    Content="Stop telemetry"
+                    IsEnabled="{x:Bind telemetryViewModel.IsStopTelemetryButtonEnabled, Mode=OneWay}"
+                    Click="ButtonStopTelemetry_Click" />
+
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Center" >
+                <TextBlock Text="{x:Bind telemetryViewModel.Temperature, Mode=OneWay, Converter={StaticResource TemperatureToStringConverter}}" 
+                           Foreground="GreenYellow"/>
+
+                <TextBlock Text="{x:Bind telemetryViewModel.Humidity, Mode=OneWay, Converter={StaticResource HumidityToStringConverter}}"
+                           Foreground="Orange" />
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Page>
